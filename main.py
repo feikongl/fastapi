@@ -1,8 +1,19 @@
+from typing import Optional
+
 from fastapi import FastAPI
+from pydantic import BaseModel
+
+
+class Item(BaseModel):
+    name: str
+    description: Optional[str] = None
+    price: float
+    tax: Optional[float] = None
+
 
 app = FastAPI()
 
 
-@app.get("/files/{file_path:path}")
-async def read_file(file_path: str):
-    return {"file_path": file_path}
+@app.post("/items/")
+async def create_item(item: Item):
+    return item
